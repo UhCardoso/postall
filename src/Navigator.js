@@ -1,13 +1,44 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationContainer } from '@react-navigation/native';
 
 import Feed from './screens/Feed';
 import AddPhoto from './screens/AddPhoto';
+import Profile from './screens/Profile';
+import Login from './screens/Login';
+import Register from './screens/Register';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+const StackAuth = createStackNavigator();
+
+// Authentication flow screens
+const AuthRoutes = () => {
+    return (
+        <StackAuth.Navigator initialRouteName="login">
+          <StackAuth.Screen name="register" component={Register} options={{title: 'Registrar-se'}}/>
+          <StackAuth.Screen name="login" component={Login} options={{
+              headerShown: false,
+              title: 'Login'
+            }}/>
+        </StackAuth.Navigator>
+      );
+}
+
+// Profile screens or call authentication flow
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="auth">
+      <Stack.Screen name="profileView" component={Profile} />
+      <Stack.Screen name="auth" component={AuthRoutes} options={{
+          headerShown: false,
+        }}/>
+    </Stack.Navigator>
+  );
+};
 
 const MenuNavigator = () => {
     return (
@@ -36,7 +67,7 @@ const MenuNavigator = () => {
                 />
                 <Tab.Screen
                     name="addPhoto"
-                    component={AddPhoto} // Substitua por seu componente AddPhoto quando disponível
+                    component={AddPhoto} 
                     options={{
                         title: 'Add Picture',
                         tabBarIcon: ({ color, size }) => (
@@ -44,9 +75,10 @@ const MenuNavigator = () => {
                         ),
                     }}
                 />
+                {/* Call profile and authentication flow screens */}
                 <Tab.Screen
                     name="profile"
-                    component={Feed} // Substitua por seu componente Profile quando disponível
+                    component={ProfileStack} 
                     options={{
                         title: 'Profile',
                         tabBarIcon: ({ color, size }) => (
