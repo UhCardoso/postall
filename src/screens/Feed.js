@@ -2,39 +2,18 @@ import React, { useState } from "react";
 import { StyleSheet, FlatList, View } from "react-native";
 import Header from "../components/Header";
 import Post from "../components/Post";
+import { useSelector } from "react-redux";
 
 const Feed = () => {
-    const [posts, setPosts] = useState([
-        {
-            id: Math.random(),
-            nickname: 'Werlen.santos',
-            email: 'werle@gmail.com',
-            image: require('../../assets/imgs/fence.jpg'),
-            comments: [{
-                nickname: 'carlos.sousa',
-                comment: 'gostei'
-            },{
-                nickname: 'ana.sousa',
-                comment: 'podia melhorar'
-            }]
-        },
-        {
-            id: Math.random(),
-            nickname: 'Werlen.santos',
-            email: 'werle@gmail.com',
-            image: require('../../assets/imgs/bw.jpg'),
-            comments: []
-        }
-    ])
-
+    // estado global redux
+    const posts = useSelector((state) => state.posts.posts)
     return(
         <View style={styles.container}>
             <Header/>
             <FlatList
                 data={posts}
                 keyExtractor={item => `${item.id}`}
-                renderItem={({item}) => 
-                <Post key={item.id} {...item}/>}
+                renderItem={({ item }) => <Post {...item} />}
             />
         </View>
     )

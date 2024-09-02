@@ -14,11 +14,19 @@ import {
     Alert
 } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { useDispatch, useSelector } from "react-redux";
 
-const AddPhoto = () => {
+const AddPhoto = ({navigation}) => {
+    // estado global redux
+    const name = useSelector((state) => state.user.name);
+    const email = useSelector((state) => state.user.email);
+
+    // estado local
     const [image, setImage] = useState(null);
     const [comment, setComment] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
+
+    const dispatch = useDispatch();
 
     const openCamera = () => {
         launchCamera(
@@ -65,7 +73,21 @@ const AddPhoto = () => {
       };
 
     save = async () => {
-        Alert.alert('Imagem adicionada!', comment);
+        dispatch(addPost({
+            id: Math.random(),
+            nickname: name,
+            email: email,
+            image: image,
+            comments: [{
+                nickname: name,
+                comment: comment
+            }]
+        }))
+
+        setComment('');
+        setImage('');
+
+        navigation.navigate('feed');
     }
 
     return (
