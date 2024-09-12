@@ -26,9 +26,16 @@ const AddPhoto = ({navigation}) => {
     const [comment, setComment] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
+    const noUser = "Você precisa está logado para adicionar imagens";
+
     const dispatch = useDispatch();
 
     const openCamera = () => {
+        if(!name) {
+            Alert.alert("Falha! ",noUser);
+            return;
+        }
+
         launchCamera(
           {
             mediaType: 'photo',
@@ -51,6 +58,10 @@ const AddPhoto = ({navigation}) => {
       };
 
       const openGallery = () => {
+        if(!name) {
+            Alert.alert("Falha! ",noUser);
+            return;
+        }
         launchImageLibrary(
           {
             mediaType: 'photo',
@@ -73,6 +84,11 @@ const AddPhoto = ({navigation}) => {
       };
 
     save = async () => {
+        if(!name) {
+            Alert.alert("Falha! ",noUser);
+            return;
+        }
+
         dispatch(addPost({
             id: Math.random(),
             nickname: name,
@@ -126,7 +142,7 @@ const AddPhoto = ({navigation}) => {
                         </View>
                     </View>
                 </Modal>
-                <TextInput style={styles.input} placeholder="Adicionar legenda..." onChangeText={setComment}/>
+                <TextInput style={styles.input} editable={name !== null} placeholder="Adicionar legenda..." onChangeText={setComment}/>
                 <TouchableOpacity style={styles.button} onPress={() => save()}>
                     <Text style={styles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
