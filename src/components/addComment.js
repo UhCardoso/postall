@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableWithoutFeedback as TWF, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useSelector, useDispatch } from "react-redux";
+import { addComment } from "../store/actions/posts";
 
-const AddComment = () => {
+const AddComment = ({postId}) => {
+    const dispatch = useDispatch();
+    // variaveis globais redux
+    const name = useSelector((state) => state.user.name);
+
+    // variaveis locais
     const [comment, setComment] = useState('');
     const [editMode, setEditMode] = useState(false);
 
     handleAddComment = () => {
-        Alert.alert('Adicionado!', comment);
+        dispatch(addComment({postId: postId, comment: {
+            nickname: name,
+            comment: comment
+        }}))
+
+        setComment('');
+        setEditMode(false);
     }
 
     return (

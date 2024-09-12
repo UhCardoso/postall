@@ -59,9 +59,23 @@ const postSlice = createSlice({
         addNewPost(state, action) {
             state.posts.push(action.payload);
         },
+        addNewComment(state, action) {
+            state.posts.map(post => {
+                if(post.id === action.payload.postId) {
+                    if(post.comments) {
+                        post.comments = post.comments.concat(
+                            action.payload.comment
+                        )
+                    } else {
+                        post.comments = action.payload.comment
+                    }
+                }
+                return post;
+            })
+        }
     },
 });
 
-export const { addNewPost } = postSlice.actions;
+export const { addNewPost, addNewComment } = postSlice.actions;
 
 export default postSlice.reducer;

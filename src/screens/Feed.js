@@ -13,7 +13,7 @@ const Feed = () => {
             <FlatList
                 data={posts}
                 keyExtractor={item => `${item.id}`}
-                renderItem={({ item }) => <Post {...item} />}
+                renderItem={({ item }) => <Post key={item.id} {...item} />}
             />
         </View>
     )

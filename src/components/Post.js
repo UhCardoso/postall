@@ -4,14 +4,14 @@ import Author from './Author';
 import Comments from "./Comments";
 import AddComment from "./addComment";
 
-const Post = ({image, comments, email, nickname}) => {
+const Post = ({image, comments, email, nickname, id}) => {
     
     return (
         <View style={styles.container}>
             <Image source={image} style={styles.image}/>
             <Author email={email} nickname={nickname}/>
             <Comments comments={comments} />
-            <AddComment  />
+            <AddComment  postId={id}/>
         </View>
     )
 }
