@@ -10,6 +10,10 @@ import {name as appName} from './app.json';
 
 import storeConfig from './src/store/storeConfig';
 
+import axios from 'axios'
+
+axios.defaults.baseURL = 'https://postall-b3326-default-rtdb.firebaseio.com/';
+
 const store = storeConfig();
 
 const redux = () => (

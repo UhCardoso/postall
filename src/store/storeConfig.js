@@ -6,8 +6,10 @@ const storeConfig = () => {
     return configureStore({
         reducer: {
             user: userReducer,
-            posts: postsReducer
-        }
+            posts: postsReducer,
+        },
+        // Caso queira adicionar middlewares customizados, pode fazer assim:
+        //middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(customMiddleware),
     });
 };
 

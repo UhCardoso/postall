@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch, useSelector } from "react-redux";
+import { addPost } from "../store/actions/posts";
 
 const AddPhoto = ({navigation}) => {
     // estado global redux
