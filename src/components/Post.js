@@ -9,10 +9,10 @@ const Post = ({image, comments, email, nickname, id}) => {
     // variaveis globais redux
     const name = useSelector((state) => state.user.name);
     const addComment = name ? <AddComment postId={id} /> : null;
-    
+
     return (
         <View style={styles.container}>
-            <Image source={image} style={styles.image}/>
+            <Image source={{uri: image}} style={styles.image}/>
             <Author email={email} nickname={nickname}/>
             <Comments comments={comments} />
             {addComment}

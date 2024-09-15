@@ -1,81 +1,68 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { addPost, fetchPosts } from '../actions/posts';
 
 const initialState = {
-    posts: [
-        {
-            id: Math.random(),
-            nickname: 'Werlen.santos',
-            email: 'werle@gmail.com',
-            image: require('../../../assets/imgs/fence.jpg'),
-            comments: [
-                {
-                    nickname: 'carlos.sousa',
-                    comment: 'gostei',
-                },
-                {
-                    nickname: 'ana.sousa',
-                    comment: 'podia melhorar',
-                },
-            ],
-        },
-        {
-            id: Math.random(),
-            nickname: 'Werlen.s antos',
-            email: 'werle@gmail.com',
-            image: require('../../../assets/imgs/bw.jpg'),
-            comments: [],
-        },
-        {
-            id: Math.random(),
-            nickname: 'Werlen.santos',
-            email: 'werle@gmail.com',
-            image: require('../../../assets/imgs/fence.jpg'),
-            comments: [
-                {
-                    nickname: 'carlos.sousa',
-                    comment: 'gostei',
-                },
-                {
-                    nickname: 'ana.sousa',
-                    comment: 'podia melhorar',
-                },
-            ],
-        },
-        {
-            id: Math.random(),
-            nickname: 'Werlen.s antos',
-            email: 'werle@gmail.com',
-            image: require('../../../assets/imgs/bw.jpg'),
-            comments: [],
-        },
-        
-    ],
+  posts: [],
+  isUploading: false,
+  postSuccess: false
 };
 
-const postSlice = createSlice({
-    name: 'posts',
-    initialState,
-    reducers: {
-        addNewPost(state, action) {
-            state.posts.push(action.payload);
-        },
-        addNewComment(state, action) {
-            state.posts.map(post => {
-                if(post.id === action.payload.postId) {
-                    if(post.comments) {
-                        post.comments = post.comments.concat(
-                            action.payload.comment
-                        )
-                    } else {
-                        post.comments = action.payload.comment
-                    }
-                }
-                return post;
-            })
-        }
+const postsSlice = createSlice({
+  name: 'posts',
+  initialState,
+
+  reducers: {
+    setPostsSlice(state, action) {
+      state.posts = action.payload;
     },
+    addNewCommentSlice(state, action) {
+      const postIndex = state.posts.findIndex(post => post.id === action.payload.postId);
+      if (postIndex >= 0) {
+        const post = state.posts[postIndex];
+        if (post.comments) {
+          post.comments = [...post.comments, action.payload.comment];
+        } else {
+          post.comments = [action.payload.comment];
+        }
+      }
+    },
+    resetPostStatus(state) {
+      state.postSuccess = false;
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+    .addCase(addPost.fulfilled, (state, action) => {
+      state.posts = [...state.posts, ...action.payload];
+    })
+    .addCase(addPost.pending, (state) => {
+      state.isUploading = true;
+      state.postSuccess = false;
+    })
+    .addCase(addPost.rejected, (state, action) => {
+      state.error = action.payload;
+      state.isUploading = false;
+      state.postSuccess = false;
+    })
+    // Fetch posts
+    .addCase(fetchPosts.fulfilled, (state, action) => {
+      state.posts = action.payload;
+      state.posts = [...state.posts, ...action.payload];
+      state.postSuccess = true;
+      state.isUploading = false;
+    })
+    .addCase(fetchPosts.pending, (state) => {
+      state.postSuccess = false;
+      state.isUploading = true;
+    })
+    .addCase(fetchPosts.rejected, (state, action) => {
+      state.error = action.payload;
+      state.postSuccess = false;
+      state.isUploading = false;
+    });
+  }
 });
 
-export const { addNewPost, addNewComment } = postSlice.actions;
+export const { setPostsSlice, addNewCommentSlice, resetPostStatus} = postsSlice.actions;
 
-export default postSlice.reducer;
+export default postsSlice.reducer;

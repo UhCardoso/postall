@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "219087606863",
+    "firebase_url": "https://postall-b3326-default-rtdb.firebaseio.com",
+    "project_id": "postall-b3326",
+    "storage_bucket": "postall-b3326.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219087606863:android:b20771a87f0f690987863a",
+        "android_client_info": {
+          "package_name": "com.instaclone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwu8oiPPzwsRNDTRYeZ9rQaEAQ5cQ9jmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

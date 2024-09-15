@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -16,11 +16,14 @@ import {
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../store/actions/posts";
+import { resetPostStatus } from "../store/reducers/posts";
 
 const AddPhoto = ({navigation}) => {
     // estado global redux
     const name = useSelector((state) => state.user.name);
     const email = useSelector((state) => state.user.email);
+    const isUploading = useSelector((state) => state.posts.isUploading);
+    const postSuccess = useSelector((state) => state.posts.postSuccess);
 
     // estado local
     const [image, setImage] = useState(null);
@@ -30,6 +33,14 @@ const AddPhoto = ({navigation}) => {
     const noUser = "Você precisa está logado para adicionar imagens";
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (postSuccess) {
+            setImage(null);
+            setComment('');
+            navigation.navigate('feed'); // Redireciona após o post ser bem-sucedido
+        }
+    }, [postSuccess, dispatch, navigation]);
 
     const openCamera = () => {
         if(!name) {
@@ -100,11 +111,6 @@ const AddPhoto = ({navigation}) => {
                 comment: comment
             }]
         }))
-
-        setComment('');
-        setImage('');
-
-        navigation.navigate('feed');
     }
 
     return (
@@ -144,7 +150,7 @@ const AddPhoto = ({navigation}) => {
                     </View>
                 </Modal>
                 <TextInput style={styles.input} editable={name !== null} placeholder="Adicionar legenda..." onChangeText={setComment}/>
-                <TouchableOpacity style={styles.button} onPress={() => save()}>
+                <TouchableOpacity disabled={isUploading} style={[styles.button, isUploading ? styles.buttonDisabled : null]} onPress={() => save()}>
                     <Text style={styles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
             </View>
@@ -228,6 +234,9 @@ const styles = StyleSheet.create({
     input: {
         marginTop: 20,
         width: '90%'
+    },
+    buttonDisabled: {
+        backgroundColor: "#aaa"
     }
 });
 
