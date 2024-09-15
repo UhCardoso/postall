@@ -64,6 +64,8 @@ export const createUser = createAsyncThunk(
   
         // Verificando se o nome foi encontrado
         const userName = userData?.name || null;
+
+        console.log(userData);
   
         // Retornando apenas dados serializáveis do usuário, o token JWT e o nome
         return {

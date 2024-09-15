@@ -21,7 +21,7 @@ const Register = ({navigation}) => {
         console.log(callingCode);
         console.log(phoneNumber)
         console.log('---phone-----')
-       // dispatch(createUser({ name, email, password })); // Disparando a ação de login com os dados do usuário
+        dispatch(createUser({ name, email, password })); // Disparando a ação de login com os dados do usuário
         navigation.navigate('profileView'); // Navegando para a tela de perfil após o login
     }
 

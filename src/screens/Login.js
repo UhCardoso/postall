@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux"; // Importando useDispatch para disparar ações
-//import { login } from "../store/actions/user"; // Importando a ação de login
+import { loginUser } from "../store/actions/user"; // Importando a ação de login
 
 const Login = ({ navigation }) => {
     const userLogged = useSelector((state) => state.user.userLogged);
@@ -20,7 +20,7 @@ const Login = ({ navigation }) => {
     }, [])
 
     function handleLogin() {
-        //rdispatch(login({ name, email, password })); // Disparando a ação de login com os dados do usuário
+        dispatch(loginUser({ name, email, password })); // Disparando a ação de login com os dados do usuário
         navigation.navigate('profileView'); // Navegando para a tela de perfil após o login
     }
 
